@@ -1,0 +1,82 @@
+package com.conquestrefabricated.content.blocks.init.blocks;
+
+import com.conquestrefabricated.core.block.builder.VanillaProps;
+import com.conquestrefabricated.core.block.factory.TypeList;
+import net.minecraft.world.level.block.Blocks;
+
+public class FloorCeilingPatternInit {
+   public FloorCeilingPatternInit() {
+   }
+
+   public static void init(TypeList types, TypeList typesVanilla) {
+      VanillaProps.stone().name("tan_clay_tiles").texture("block/1_basic_refined/1_stone/1_clay/tan_clay_tiles").register(types);
+      VanillaProps.stone().name("mixed_clay_tiles").texture("block/1_basic_refined/1_stone/1_clay/mixed_clay_tiles").register(types);
+      VanillaProps.stone().name("light_clay_tiles").texture("block/1_basic_refined/1_stone/1_clay/light_clay_tiles").register(types);
+      VanillaProps.stone()
+         .name("red_painted_angled_tiles", "red_painted_angled_tile")
+         .texture("minecraft:block/magenta_concrete")
+         .parent(Blocks.MAGENTA_CONCRETE.defaultBlockState())
+         .register(typesVanilla);
+      VanillaProps.stone()
+         .name("circular_carved_limestone_design")
+         .texture("block/2_advanced_refined/1_stone/2_limestone/circular_carved_limestone_design")
+         .register(types);
+      VanillaProps.stone().name("gray_angled_tiles").texture("block/2_advanced_refined/1_stone/gray_angled_tiles").register(types);
+      VanillaProps.stone()
+         .name("circular_carved_granite_design")
+         .texture("block/2_advanced_refined/1_stone/1_granite/circular_carved_granite_design")
+         .register(types);
+      VanillaProps.stone()
+         .name("woven_granite_design")
+         .texture("top", "block/2_advanced_refined/1_stone/1_granite/woven_granite_design_top")
+         .texture("bottom", "block/2_advanced_refined/1_stone/1_granite/woven_granite_design_top")
+         .texture("*", "block/2_advanced_refined/1_stone/1_granite/woven_granite_design")
+         .register(types);
+      VanillaProps.stone().name("complex_sandstone_design").texture("block/2_advanced_refined/1_stone/5_sandstone/complex_sandstone_design").register(types);
+      VanillaProps.stone().name("black_square_marble_pattern").texture("block/2_advanced_refined/1_stone/3_marble/black_square_marble_pattern").register(types);
+      VanillaProps.stone()
+         .name("black_marble_diagonal_checker_pattern")
+         .texture("block/2_advanced_refined/1_stone/3_marble/black_marble_diagonal_checker_pattern")
+         .register(types);
+      VanillaProps.stone()
+         .name("small_marble_checker_pattern")
+         .texture("block/2_advanced_refined/1_stone/3_marble/small_marble_checker_pattern")
+         .register(types);
+      VanillaProps.stone().name("red_square_marble_pattern").texture("block/2_advanced_refined/1_stone/3_marble/red_square_marble_pattern").register(types);
+      VanillaProps.stone()
+         .name("red_square_border_marble_pattern")
+         .texture("block/2_advanced_refined/1_stone/3_marble/red_square_border_marble_pattern")
+         .register(types);
+      VanillaProps.stone()
+         .name("yellow_diamond_marble_pattern")
+         .texture("block/2_advanced_refined/1_stone/3_marble/yellow_diamond_marble_pattern")
+         .register(types);
+      VanillaProps.stone()
+         .name("black_diamond_marble_pattern")
+         .texture("block/2_advanced_refined/1_stone/3_marble/black_diamond_marble_pattern")
+         .register(types);
+      VanillaProps.stone().name("marble_checker_pattern").texture("block/2_advanced_refined/1_stone/3_marble/marble_checker_pattern").register(types);
+      VanillaProps.stone().name("meander_bordered_mosaic").texture("block/2_advanced_refined/1_stone/4_painted/meander_bordered_mosaic").register(types);
+      VanillaProps.stone().name("fancy_oriental_mosaic").texture("block/2_advanced_refined/1_stone/4_painted/fancy_oriental_mosaic").register(types);
+      VanillaProps.stone().name("andalusian_mosaic").texture("block/2_advanced_refined/1_stone/4_painted/andalusian_mosaic").register(types);
+      VanillaProps.stone().name("black_and_white_tesserae").texture("block/2_advanced_refined/1_stone/4_painted/black_and_white_tesserae").register(types);
+      VanillaProps.mosaic().name("blue_roman_mosaic").texture("block/2_advanced_refined/1_stone/4_painted/blue_roman_mosaic").register(types);
+      VanillaProps.mosaic().name("dark_blue_roman_mosaic").texture("block/2_advanced_refined/1_stone/4_painted/dark_blue_roman_mosaic").register(types);
+      VanillaProps.stone()
+         .name("brown_sandstone_comb_pattern")
+         .texture("top", "block/2_advanced_refined/1_stone/5_sandstone/brown_sandstone_comb_pattern_top")
+         .texture("bottom", "block/2_advanced_refined/1_stone/5_sandstone/brown_sandstone_comb_pattern_top")
+         .texture("*", "block/2_advanced_refined/1_stone/5_sandstone/brown_sandstone_comb_pattern")
+         .register(types);
+      VanillaProps.stone().name("gold_blue_arabian_mosaic").texture("block/2_advanced_refined/1_stone/4_painted/gold_blue_arabian_mosaic").register(types);
+      VanillaProps.stone()
+         .name("gothic_sandstone_floor_tiles")
+         .texture("block/2_advanced_refined/1_stone/5_sandstone/gothic_sandstone_floor_tiles")
+         .register(types);
+      VanillaProps.stone()
+         .name("chiseled_polished_blackstone")
+         .texture("minecraft:block/chiseled_polished_blackstone")
+         .parent(Blocks.CHISELED_POLISHED_BLACKSTONE.defaultBlockState())
+         .register(typesVanilla);
+   }
+}

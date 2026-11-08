@@ -1,0 +1,21 @@
+package com.conquestrefabricated.core.asset.template;
+
+import com.conquestrefabricated.core.asset.VirtualResource;
+import com.google.common.io.ByteSource;
+import java.io.IOException;
+import java.io.InputStream;
+import net.minecraft.server.packs.resources.ResourceManager;
+
+public class ByteResource extends ByteSource {
+   private final ResourceManager resourceManager;
+   private final VirtualResource resource;
+
+   public ByteResource(VirtualResource resource, ResourceManager manager) {
+      this.resourceManager = manager;
+      this.resource = resource;
+   }
+
+   public InputStream openStream() throws IOException {
+      return this.resource.getInputStream(this.resourceManager);
+   }
+}

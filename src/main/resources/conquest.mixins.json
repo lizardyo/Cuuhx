@@ -1,0 +1,21 @@
+{
+  "required": true,
+  "minVersion": "0.8.7",
+  "package": "com.conquestrefabricated.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "PathNodeTypeMixin",
+    "LeavesBlockMixin",
+    "EntityRenderersMixin",
+    "AbstractClientPlayerEntityMixin",
+    "TallFlowerBlockMixin",
+    "TallPlantBlockMixin",
+    "FernBlockMixin",
+    "BlockSettingsOffsetMixin",
+    "LayerBlockPathNodeMixin",
+    "AbstractBlockStateMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 0
+  }
+}

@@ -1,0 +1,28 @@
+package com.conquestrefabricated.core.block.factory.constructor;
+
+import com.conquestrefabricated.core.block.builder.Props;
+import com.conquestrefabricated.core.block.factory.BlockType;
+import com.conquestrefabricated.core.block.factory.InitializationException;
+import java.lang.reflect.Constructor;
+import net.minecraft.world.level.block.Block;
+
+public class PropsConstructor implements BlockType {
+   private final Constructor<? extends Block> constructor;
+
+   public PropsConstructor(Constructor<? extends Block> constructor) {
+      this.constructor = constructor;
+   }
+
+   public Block newInstance(Object... args) throws InitializationException {
+      try {
+         return this.constructor.newInstance(args);
+      } catch (Throwable t) {
+         throw new InitializationException(this.constructor, t);
+      }
+   }
+
+   @Override
+   public Block create(Props props) throws InitializationException {
+      return this.newInstance(props);
+   }
+}

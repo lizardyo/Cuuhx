@@ -1,0 +1,22 @@
+name: Build (compile check)
+
+# This only checks that the CODE compiles. Textures/models/data are NOT in the repo
+# (they come from the original jar, see docs/GITHUB_SETUP_GUIDE.md), so the jar made
+# here is NOT playable. Build the playable jar in a Codespace after running tools/setup_resources.sh.
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Compile
+        run: ./gradlew compileJava --stacktrace
