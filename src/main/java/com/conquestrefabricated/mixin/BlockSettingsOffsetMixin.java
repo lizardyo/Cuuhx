@@ -11,7 +11,6 @@ import com.conquestrefabricated.content.blocks.block.SlabLessLayers;
 import com.conquestrefabricated.content.blocks.block.SlabQuarter;
 import com.conquestrefabricated.content.blocks.block.VerticalSlab;
 import com.conquestrefabricated.core.block.properties.ModBlockProperties;
-import java.util.Optional;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
@@ -21,6 +20,7 @@ import net.minecraft.world.level.block.PipeBlock;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.SnowLayerBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockBehaviour.OffsetType;
 import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -38,15 +38,19 @@ public abstract class BlockSettingsOffsetMixin implements BlockSettingsAccessor 
    @Unique
    private CustomOffsetType customOffsetType = null;
 
+   @org.spongepowered.asm.mixin.Shadow
+   @org.spongepowered.asm.mixin.Mutable
+   private BlockBehaviour.OffsetFunction offsetFunction;
+
    public BlockSettingsOffsetMixin() {
    }
 
    @Inject(method = "offset", at = @At("HEAD"), cancellable = true)
    private void customOffset(OffsetType offsetType, CallbackInfoReturnable<Properties> cir) {
-      Properties settings = (Properties)this;
+      Properties settings = (Properties)(Object)this;
       if (this.customOffsetType != null) {
          if (this.customOffsetType == CustomOffsetType.LAYER_STATE_Y) {
-            settings.offsetFunction = Optional.of((state, world, pos) -> {
+            this.offsetFunction = (state, world, pos) -> {
                double layerY = 0.0;
                int layerState = (Integer)state.getValue(BlockStateProperties.LAYERS);
 
@@ -63,18 +67,18 @@ public abstract class BlockSettingsOffsetMixin implements BlockSettingsAccessor 
                if (offsetType == OffsetType.XYZ) {
                   Block block = state.getBlock();
                   long l = Mth.getSeed(pos.getX(), 0, pos.getZ());
-                  double d = ((float)(l >> 4 & 15L) / 15.0F - 1.0) * block.getMaxVerticalOffset() + layerY;
-                  float f = block.getMaxHorizontalOffset();
+                  double d = ((float)(l >> 4 & 15L) / 15.0F - 1.0) * ((BlockOffsetInvoker)(Object)block).invokeGetMaxVerticalOffset() + layerY;
+                  float f = ((BlockOffsetInvoker)(Object)block).invokeGetMaxHorizontalOffset();
                   double e = Mth.clamp(((float)(l & 15L) / 15.0F - 0.5) * 0.5, -f, f) + 0.001;
                   double g = Mth.clamp(((float)(l >> 8 & 15L) / 15.0F - 0.5) * 0.5, -f, f) + 0.001;
                   return new Vec3(e, d, g);
                } else {
                   return new Vec3(0.0, layerY, 0.0);
                }
-            });
+            };
             cir.setReturnValue(settings);
          } else if (this.customOffsetType == CustomOffsetType.PLANT_XYZ) {
-            settings.offsetFunction = Optional.of((state, world, pos) -> {
+            this.offsetFunction = (state, world, pos) -> {
                double layerY = 0.0;
                int layerState = (Integer)state.getValue(BlockStateProperties.LAYERS);
 
@@ -95,18 +99,18 @@ public abstract class BlockSettingsOffsetMixin implements BlockSettingsAccessor 
                if (offsetType == OffsetType.XYZ) {
                   Block block = state.getBlock();
                   long l = Mth.getSeed(pos.getX(), 0, pos.getZ());
-                  double d = ((float)(l >> 4 & 15L) / 15.0F - 1.0) * block.getMaxVerticalOffset() + layerY;
-                  float f = block.getMaxHorizontalOffset();
+                  double d = ((float)(l >> 4 & 15L) / 15.0F - 1.0) * ((BlockOffsetInvoker)(Object)block).invokeGetMaxVerticalOffset() + layerY;
+                  float f = ((BlockOffsetInvoker)(Object)block).invokeGetMaxHorizontalOffset();
                   double e = Mth.clamp(((float)(l & 15L) / 15.0F - 0.5) * 0.5, -f, f) + 0.001;
                   double g = Mth.clamp(((float)(l >> 8 & 15L) / 15.0F - 0.5) * 0.5, -f, f) + 0.001;
                   return new Vec3(e, d, g);
                } else {
                   return new Vec3(0.0, layerY, 0.0);
                }
-            });
+            };
             cir.setReturnValue(settings);
          } else if (this.customOffsetType == CustomOffsetType.PLANT_XZ) {
-            settings.offsetFunction = Optional.of((state, world, pos) -> {
+            this.offsetFunction = (state, world, pos) -> {
                double layerY = 0.0;
                int layerState = (Integer)state.getValue(BlockStateProperties.LAYERS);
 
@@ -127,25 +131,25 @@ public abstract class BlockSettingsOffsetMixin implements BlockSettingsAccessor 
                if (offsetType == OffsetType.XZ) {
                   Block block = state.getBlock();
                   long l = Mth.getSeed(pos.getX(), 0, pos.getZ());
-                  double d = ((float)(l >> 4 & 15L) / 15.0F - 1.0) * block.getMaxVerticalOffset() + layerY;
-                  float f = block.getMaxHorizontalOffset();
+                  double d = ((float)(l >> 4 & 15L) / 15.0F - 1.0) * ((BlockOffsetInvoker)(Object)block).invokeGetMaxVerticalOffset() + layerY;
+                  float f = ((BlockOffsetInvoker)(Object)block).invokeGetMaxHorizontalOffset();
                   double e = Mth.clamp(((float)(l & 15L) / 15.0F - 0.5) * 0.5, -f, f) + 0.001;
                   double g = Mth.clamp(((float)(l >> 8 & 15L) / 15.0F - 0.5) * 0.5, -f, f) + 0.001;
                   return new Vec3(e, d, g);
                } else {
                   return new Vec3(0.0, layerY, 0.0);
                }
-            });
+            };
             cir.setReturnValue(settings);
          } else if (this.customOffsetType == CustomOffsetType.PLANT) {
-            settings.offsetFunction = Optional.of((state, world, pos) -> {
+            this.offsetFunction = (state, world, pos) -> {
                if ((Boolean)state.getValue(ModBlockProperties.OFFSET_TOGGLE)) {
                   double layerY = -1.0;
                   if (offsetType == OffsetType.XYZ) {
                      Block block = state.getBlock();
                      long l = Mth.getSeed(pos.getX(), 0, pos.getZ());
-                     double d = ((float)(l >> 4 & 15L) / 15.0F - 1.0) * block.getMaxVerticalOffset() + layerY;
-                     float f = block.getMaxHorizontalOffset();
+                     double d = ((float)(l >> 4 & 15L) / 15.0F - 1.0) * ((BlockOffsetInvoker)(Object)block).invokeGetMaxVerticalOffset() + layerY;
+                     float f = ((BlockOffsetInvoker)(Object)block).invokeGetMaxHorizontalOffset();
                      double e = Mth.clamp(((float)(l & 15L) / 15.0F - 0.5) * 0.5, -f, f) + 0.001;
                      double g = Mth.clamp(((float)(l >> 8 & 15L) / 15.0F - 0.5) * 0.5, -f, f) + 0.001;
                      return new Vec3(e, d, g);
@@ -155,10 +159,10 @@ public abstract class BlockSettingsOffsetMixin implements BlockSettingsAccessor 
                } else {
                   return new Vec3(0.0, 0.0, 0.0);
                }
-            });
+            };
             cir.setReturnValue(settings);
          } else if (this.customOffsetType == CustomOffsetType.LAYERS_STATIC) {
-            settings.offsetFunction = Optional.of((state, world, pos) -> {
+            this.offsetFunction = (state, world, pos) -> {
                double layerY = 0.0;
                int layerState = (Integer)state.getValue(BlockStateProperties.LAYERS);
 
@@ -173,31 +177,31 @@ public abstract class BlockSettingsOffsetMixin implements BlockSettingsAccessor 
                   default -> layerY;
                };
                return new Vec3(0.0, layerY, 0.0);
-            });
+            };
             cir.setReturnValue(settings);
          } else if (offsetType == OffsetType.XYZ) {
-            settings.offsetFunction = Optional.of((state, world, pos) -> {
+            this.offsetFunction = (state, world, pos) -> {
                Block block = state.getBlock();
                long l = Mth.getSeed(pos.getX(), 0, pos.getZ());
-               double d = ((float)(l >> 4 & 15L) / 15.0F - 1.0) * block.getMaxVerticalOffset();
-               float f = block.getMaxHorizontalOffset();
+               double d = ((float)(l >> 4 & 15L) / 15.0F - 1.0) * ((BlockOffsetInvoker)(Object)block).invokeGetMaxVerticalOffset();
+               float f = ((BlockOffsetInvoker)(Object)block).invokeGetMaxHorizontalOffset();
                double e = Mth.clamp(((float)(l & 15L) / 15.0F - 0.5) * 0.5, -f, f);
                double g = Mth.clamp(((float)(l >> 8 & 15L) / 15.0F - 0.5) * 0.5, -f, f);
                return new Vec3(e, d, g);
-            });
+            };
             cir.setReturnValue(settings);
          } else if (offsetType == OffsetType.XZ) {
-            settings.offsetFunction = Optional.of((state, world, pos) -> {
+            this.offsetFunction = (state, world, pos) -> {
                Block block = state.getBlock();
                long l = Mth.getSeed(pos.getX(), 0, pos.getZ());
-               float f = block.getMaxHorizontalOffset();
+               float f = ((BlockOffsetInvoker)(Object)block).invokeGetMaxHorizontalOffset();
                double d = Mth.clamp(((float)(l & 15L) / 15.0F - 0.5) * 0.5, -f, f);
                double e = Mth.clamp(((float)(l >> 8 & 15L) / 15.0F - 0.5) * 0.5, -f, f);
                return new Vec3(d, 0.0, e);
-            });
+            };
             cir.setReturnValue(settings);
          } else if (this.customOffsetType == CustomOffsetType.LAYER_Y) {
-            settings.offsetFunction = Optional.of((state, world, pos) -> {
+            this.offsetFunction = (state, world, pos) -> {
                if ((Boolean)state.getValue(ModBlockProperties.OFFSET_TOGGLE)) {
                   double layerY = 0.0;
                   BlockPos belowPos = pos.below();
@@ -208,10 +212,10 @@ public abstract class BlockSettingsOffsetMixin implements BlockSettingsAccessor 
                } else {
                   return new Vec3(0.0, 0.0, 0.0);
                }
-            });
+            };
             cir.setReturnValue(settings);
          } else if (this.customOffsetType == CustomOffsetType.LAYER_XYZ) {
-            settings.offsetFunction = Optional.of((state, world, pos) -> {
+            this.offsetFunction = (state, world, pos) -> {
                if ((Boolean)state.getValue(ModBlockProperties.OFFSET_TOGGLE)) {
                   float translationAmountX = 0.0F;
                   float translationAmountZ = 0.0F;
@@ -248,10 +252,10 @@ public abstract class BlockSettingsOffsetMixin implements BlockSettingsAccessor 
                } else {
                   return new Vec3(0.0, 0.0, 0.0);
                }
-            });
+            };
             cir.setReturnValue(settings);
          } else if (this.customOffsetType == CustomOffsetType.LAYER_XYZ_NSEWUD) {
-            settings.offsetFunction = Optional.of((state, world, pos) -> {
+            this.offsetFunction = (state, world, pos) -> {
                if ((Boolean)state.getValue(ModBlockProperties.OFFSET_TOGGLE)) {
                   float translationAmountX = 0.0F;
                   float translationAmountZ = 0.0F;
@@ -286,10 +290,10 @@ public abstract class BlockSettingsOffsetMixin implements BlockSettingsAccessor 
                } else {
                   return new Vec3(0.0, 0.0, 0.0);
                }
-            });
+            };
             cir.setReturnValue(settings);
          } else if (this.customOffsetType == CustomOffsetType.LAYER_XYZ_LICHEN) {
-            settings.offsetFunction = Optional.of((state, world, pos) -> {
+            this.offsetFunction = (state, world, pos) -> {
                if ((Boolean)state.getValue(ModBlockProperties.OFFSET_TOGGLE)) {
                   float translationAmountX = 0.0F;
                   float translationAmountZ = 0.0F;
@@ -322,7 +326,7 @@ public abstract class BlockSettingsOffsetMixin implements BlockSettingsAccessor 
                } else {
                   return new Vec3(0.0, 0.0, 0.0);
                }
-            });
+            };
             cir.setReturnValue(settings);
          }
       }
@@ -481,6 +485,6 @@ public abstract class BlockSettingsOffsetMixin implements BlockSettingsAccessor 
    @Override
    public Properties setCustomOffsetter(CustomOffsetType offsetter) {
       this.customOffsetType = offsetter;
-      return (Properties)this;
+      return (Properties)(Object)this;
    }
 }

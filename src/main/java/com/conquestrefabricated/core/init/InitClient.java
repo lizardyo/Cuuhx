@@ -15,6 +15,7 @@ import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.CreativeModeTabs;
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -83,15 +84,15 @@ public class InitClient {
             NonNullList<ItemStack> list = NonNullList.create();
             familyGroup.populate(list);
             familyGroup.sorter.apply(list);
-            if (event.getTab() == CreativeModeTabs.BUILDING_BLOCKS) {
-               event.getEntries().addAll(list);
+            if (event.getTabKey().equals(CreativeModeTabs.BUILDING_BLOCKS)) {
+               list.forEach(stack -> event.accept(stack, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS));
             }
 
             familyGroup.sorter.sort(list);
             familyGroup.cached = new ArrayList<>(list);
          }
 
-         if (event.getTabKey().equals(BuiltInRegistries.CREATIVE_MODE_TABS.getKey(familyGroup).get())) {
+         if (event.getTab() == familyGroup) {
             for (ItemStack item : familyGroup.cached) {
                if (item.getItem() != Items.BARRIER) {
                   if (item.getItem() instanceof PaintingHolder) {
@@ -99,14 +100,14 @@ public class InitClient {
                      ModPainting.getIds().distinct().sorted().forEach(name -> {
                         ModPainting type = ModPainting.fromName(name);
                         ItemStack stack = type.createStack(art);
-                        event.getEntries().accept(stack);
+                        event.accept(stack, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
                      });
                   } else if (item.getItem() instanceof TippedArrowItem) {
                      ItemStack tipped = new ItemStack(item.getItem());
                      tipped.set(DataComponents.POTION_CONTENTS, PotionContents.EMPTY);
-                     event.getEntries().accept(tipped);
+                     event.accept(tipped, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
                   } else {
-                     event.getEntries().accept(item.getItem());
+                     event.accept(new ItemStack(item.getItem()), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
                   }
                }
             }

@@ -31,11 +31,11 @@ public abstract class ConquestItemGroup extends CreativeModeTab implements Conqu
       int index, String label, Row row, int i, Type type, Component text, Supplier<ItemStack> supplier, DisplayItemsGenerator entryCollector
    ) {
       super(
-         CreativeModeTab.builder()
-            .backgroundSuffix("items.png")
+         CreativeModeTab.builder(row, i)
             .icon(supplier)
-            .withBackgroundLocation(ResourceLocation.fromNamespaceAndPath("textures/gui/container/creative_inventory/tab_items.png"))
+            .backgroundTexture(ResourceLocation.withDefaultNamespace("textures/gui/container/creative_inventory/tab_items.png"))
             .title(text)
+            .displayItems(entryCollector)
       );
       String namespace = "conquest";
       this.index = index;

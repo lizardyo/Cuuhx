@@ -1,6 +1,5 @@
 package com.conquestrefabricated.content.effects;
 
-import java.util.UUID;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.LivingEntity;
@@ -9,9 +8,10 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.resources.ResourceLocation;
 
 public class CustomSlownessEffect extends MobEffect {
-   public static final UUID MODIFIER_ID = UUID.fromString("0e19c602-a936-4fa8-a6a5-8f9980c1e196");
+   public static final ResourceLocation MODIFIER_ID = ResourceLocation.parse("conquest:custom_slowness");
 
    public CustomSlownessEffect() {
       super(MobEffectCategory.HARMFUL, 5926017);
@@ -23,7 +23,7 @@ public class CustomSlownessEffect extends MobEffect {
 
    public void addAttributeModifiers(LivingEntity entity, AttributeMap attributes, int amplifier) {
       entity.getAttribute(Attributes.MOVEMENT_SPEED)
-         .addTransientModifier(new AttributeModifier(MODIFIER_ID, "Custom Slowness modifier", this.getMovementSpeedModifierValue(amplifier), Operation.MULTIPLY_TOTAL));
+         .addTransientModifier(new AttributeModifier(MODIFIER_ID, this.getMovementSpeedModifierValue(amplifier), Operation.MULTIPLY_TOTAL));
    }
 
    public void removeAttributeModifiers(LivingEntity entity, AttributeMap attributes, int amplifier) {

@@ -32,7 +32,7 @@ public class ColorPicker2 extends AbstractWidget implements ContainerEventHandle
       this.sliders = Arrays.asList();
    }
 
-   public void render(GuiGraphics matrixStack, int mx, int my, float ticks) {
+   protected void renderWidget(GuiGraphics matrixStack, int mx, int my, float ticks) {
       int top = this.y;
 
       for (AbstractOptionSliderButton slider : this.sliders) {
@@ -41,9 +41,6 @@ public class ColorPicker2 extends AbstractWidget implements ContainerEventHandle
          slider.render(matrixStack, mx, my, ticks);
          top += slider.getHeight() + 2;
       }
-   }
-
-   protected void renderWidget(GuiGraphics drawContext, int i, int j, float f) {
    }
 
    public void setHeight(int value) {

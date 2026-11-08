@@ -3,8 +3,8 @@ package com.conquestrefabricated.content.blocks.init.forge;
 import com.conquestrefabricated.content.blocks.init.ParticleRegistrar;
 import com.conquestrefabricated.content.blocks.particles.AnimalParticleFactory;
 import net.neoforged.api.distmarker.Dist;
-import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.EventBusSubscriber.Bus;
 

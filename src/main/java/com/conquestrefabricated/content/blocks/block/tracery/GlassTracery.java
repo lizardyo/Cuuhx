@@ -8,7 +8,7 @@ import com.conquestrefabricated.core.asset.annotation.State;
 import com.conquestrefabricated.core.block.base.WaterloggedHorizontalDirectionalShape;
 import com.conquestrefabricated.core.util.RenderLayer;
 import net.minecraft.core.Direction;
-import net.minecraft.world.level.block.TransparentBlock;
+import net.minecraft.world.level.block.HalfTransparentBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 import net.minecraft.world.level.block.state.properties.Half;
@@ -21,7 +21,7 @@ import net.neoforged.api.distmarker.OnlyIn;
    render = @Render(RenderLayer.CUTOUT),
    block = @Model(name = "block/%s", template = "block/parent_cube", plural = true)
 )
-public class GlassTracery extends AbstractGlassBlock {
+public class GlassTracery extends HalfTransparentBlock {
    public GlassTracery(Properties properties) {
       super(properties);
    }

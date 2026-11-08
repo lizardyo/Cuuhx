@@ -6,13 +6,15 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.decoration.PaintingVariant;
 
 public class VanillaArt implements Art<PaintingVariant> {
    public static final List<Art<PaintingVariant>> ALL = Collections.unmodifiableList(
-      BuiltInRegistries.PAINTING_VARIANT.stream().map(VanillaArt::new).collect(Collectors.toList())
+      paintingVariants().stream().map(VanillaArt::new).collect(Collectors.toList())
    );
    private final PaintingVariant art;
 
@@ -32,22 +34,22 @@ public class VanillaArt implements Art<PaintingVariant> {
 
    @Override
    public int width() {
-      return this.art.getWidth();
+      return this.art.width();
    }
 
    @Override
    public int height() {
-      return this.art.getHeight();
+      return this.art.height();
    }
 
    @Override
    public int textureWidth() {
-      return this.art.getWidth();
+      return this.art.width();
    }
 
    @Override
    public int textureHeight() {
-      return this.art.getHeight();
+      return this.art.height();
    }
 
    public PaintingVariant getReference() {
@@ -56,12 +58,12 @@ public class VanillaArt implements Art<PaintingVariant> {
 
    @Override
    public String getName() {
-      return BuiltInRegistries.PAINTING_VARIANT.getKey(this.art) + "";
+      return paintingVariants().getKey(this.art) + "";
    }
 
    @Override
    public String getDisplayName(String parent) {
-      return ((ResourceKey)BuiltInRegistries.PAINTING_VARIANT.getResourceKey(this.art).get()).location().getPath();
+      return paintingVariants().getResourceKey(this.art).orElseThrow().location().getPath();
    }
 
    @Override
@@ -75,7 +77,12 @@ public class VanillaArt implements Art<PaintingVariant> {
    }
 
    public static Art<PaintingVariant> fromName(String name) {
-      PaintingVariant type = (PaintingVariant)BuiltInRegistries.PAINTING_VARIANT.get(ResourceLocation.fromNamespaceAndPath(name));
+      PaintingVariant type = paintingVariants().get(ResourceLocation.parse(name));
       return Art.find(type, ALL);
+   }
+
+   @SuppressWarnings("unchecked")
+   private static Registry<PaintingVariant> paintingVariants() {
+      return (Registry<PaintingVariant>)BuiltInRegistries.REGISTRY.get(Registries.PAINTING_VARIANT.location());
    }
 }

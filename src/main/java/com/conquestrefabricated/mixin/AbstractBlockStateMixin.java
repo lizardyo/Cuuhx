@@ -28,7 +28,7 @@ public class AbstractBlockStateMixin {
 
    @Unique
    private BlockState self() {
-      return (BlockState)this;
+      return (BlockState)(Object)this;
    }
 
    @Inject(

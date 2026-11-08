@@ -1,11 +1,13 @@
 package com.conquestrefabricated.api.painting;
 
 import com.conquestrefabricated.api.painting.art.Art;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.CustomData;
 
 public interface Painting {
    String getName();
@@ -30,7 +32,7 @@ public interface Painting {
       CompoundTag data = new CompoundTag();
       data.put("Painting", painting);
       ItemStack stack = new ItemStack(item, count);
-      stack.setTag(data);
+      stack.set(DataComponents.CUSTOM_DATA, CustomData.of(data));
       return stack;
    }
 }

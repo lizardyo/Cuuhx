@@ -47,3 +47,4 @@ src/main/resources/data/
 src/main/resources/resourcepacks/
 run/
 *.jar
+!gradle/wrapper/gradle-wrapper.jar

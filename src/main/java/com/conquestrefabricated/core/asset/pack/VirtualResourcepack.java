@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.Map.Entry;
 import java.util.concurrent.ForkJoinPool;
@@ -21,11 +22,14 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.AbstractPackResources;
+import net.minecraft.server.packs.PackLocationInfo;
 import net.minecraft.server.packs.PackResources;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.PackResources.ResourceOutput;
 import net.minecraft.server.packs.resources.IoSupplier;
 import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.network.chat.Component;
+import net.minecraft.server.packs.repository.PackSource;
 import org.jetbrains.annotations.Nullable;
 
 public class VirtualResourcepack extends AbstractPackResources implements Supplier<PackResources> {
@@ -33,7 +37,7 @@ public class VirtualResourcepack extends AbstractPackResources implements Suppli
    private final Map<String, VirtualResource> resources;
 
    private VirtualResourcepack(PackType type, ResourceManager resourceManager, String name, Map<String, VirtualResource> resources) {
-      super(name, true);
+      super(new PackLocationInfo(name, Component.literal(name), PackSource.BUILT_IN, Optional.empty()));
       this.resources = resources;
       this.resourceManager = resourceManager;
       PackFinder.getInstance(type).register(this);
@@ -101,7 +105,7 @@ public class VirtualResourcepack extends AbstractPackResources implements Suppli
    }
 
    public PackResources get() {
-      return null;
+      return this;
    }
 
    public static class Builder {

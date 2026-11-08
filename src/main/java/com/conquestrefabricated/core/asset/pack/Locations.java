@@ -28,7 +28,7 @@ public class Locations {
    }
 
    public static String modelPath(ModelResourceLocation name) {
-      return path("assets", "models", name);
+      return path("assets", "models", name.id());
    }
 
    public static String stateTemplatePath(ResourceLocation name) {
@@ -36,7 +36,7 @@ public class Locations {
    }
 
    public static String modelTemplatePath(ModelResourceLocation name) {
-      return path("templates", "models", name);
+      return path("templates", "models", name.id());
    }
 
    public static String path(ResourceLocation location) {

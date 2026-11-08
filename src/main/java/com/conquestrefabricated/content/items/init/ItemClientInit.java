@@ -19,7 +19,7 @@ public class ItemClientInit {
    }
 
    private static void registerModel(String item, String model, Minecraft client) {
-      registerModel(ResourceLocation.fromNamespaceAndPath(item), model, client);
+      registerModel(ResourceLocation.parse(item), model, client);
    }
 
    private static void registerModel(ResourceLocation item, String model, Minecraft client) {
@@ -27,7 +27,7 @@ public class ItemClientInit {
    }
 
    private static void registerModel(Item item, String model, Minecraft client) {
-      ModelResourceLocation modelLocation = new ModelResourceLocation(ResourceLocation.fromNamespaceAndPath(model), "inventory");
+      ModelResourceLocation modelLocation = new ModelResourceLocation(ResourceLocation.parse(model), "inventory");
       client.getItemRenderer().getItemModelShaper().register(item, modelLocation);
    }
 }

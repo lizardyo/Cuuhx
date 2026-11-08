@@ -43,7 +43,7 @@ public class ColorPicker extends Button {
       this.SLIDER_ID = Minecraft.getInstance().getTextureManager().register("slider", this.slider);
    }
 
-   public void render(GuiGraphics drawContext, int mx, int my, float ticks) {
+   protected void renderWidget(GuiGraphics drawContext, int mx, int my, float ticks) {
       if (this.dirty) {
          this.renderImage();
       }

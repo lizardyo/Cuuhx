@@ -18,7 +18,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
 public class PaletteScreen extends CustomCreativeScreen<PaletteContainer> {
-   private static final ResourceLocation WHEEL = ResourceLocation.fromNamespaceAndPath("conquest:textures/gui/picker/wheel.png");
+   private static final ResourceLocation WHEEL = ResourceLocation.parse("conquest:textures/gui/picker/wheel.png");
    private static final int EXIT = 256;
    private static final int SIZE = 218;
    private final Screen previous;
@@ -77,7 +77,7 @@ public class PaletteScreen extends CustomCreativeScreen<PaletteContainer> {
    }
 
    public void renderBg(GuiGraphics drawContext, float partialTicks, int mouseX, int mouseY) {
-      this.renderBackground(drawContext);
+      this.renderBackground(drawContext, mouseX, mouseY, partialTicks);
       Render.drawTexture(WHEEL, drawContext, this.leftPos, this.topPos, 218, 218, 0.0F, 0.0F);
       ((PaletteContainer)this.getMenu()).getHotbar().renderBackground(this, drawContext);
    }

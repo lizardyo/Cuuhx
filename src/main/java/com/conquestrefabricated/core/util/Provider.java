@@ -47,7 +47,7 @@ public class Provider<T extends ItemLike> implements ItemLike {
    }
 
    public static Provider.Block block(String name) {
-      return block(ResourceLocation.fromNamespaceAndPath(name));
+      return block(ResourceLocation.parse(name));
    }
 
    public static Provider.Block block(ResourceLocation name) {
@@ -59,7 +59,7 @@ public class Provider<T extends ItemLike> implements ItemLike {
    }
 
    public static Provider.Item item(String name) {
-      return item(ResourceLocation.fromNamespaceAndPath(name));
+      return item(ResourceLocation.parse(name));
    }
 
    public static Provider.Item item(ResourceLocation name) {

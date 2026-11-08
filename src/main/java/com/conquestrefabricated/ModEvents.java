@@ -47,7 +47,7 @@ public class ModEvents {
          && player.isCrouching()
          && !player.getMainHandItem().is(ModTags.CYCLING_TOOLS)
          && !player.getMainHandItem().isEmpty()) {
-         state.getBlock().useWithoutItem(state, world, pos, player, event.getHand(), event.getHitVec());
+         state.useWithoutItem(world, player, pos);
          event.setCanceled(true);
       }
    }

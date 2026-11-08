@@ -19,9 +19,9 @@ public abstract class AbstractClientPlayerEntityMixin {
    public AbstractClientPlayerEntityMixin() {
    }
 
-   @ModifyReturnValue(method = "getFovMultiplier", at = @At("RETURN"))
+   @ModifyReturnValue(method = "getFieldOfViewModifier", at = @At("RETURN"))
    private float adjustFovWithCustomEffect(float original) {
-      AbstractClientPlayer player = (AbstractClientPlayer)this;
+      AbstractClientPlayer player = (AbstractClientPlayer)(Object)this;
       AttributeInstance speedAttribute = player.getAttribute(Attributes.MOVEMENT_SPEED);
       return speedAttribute != null && speedAttribute.getModifier(CustomSlownessEffect.MODIFIER_ID) != null
          ? this.calculateAdjustedFov(player, speedAttribute)
@@ -34,11 +34,11 @@ public abstract class AbstractClientPlayerEntityMixin {
       double valueWithoutOurModifier = baseValue;
 
       for (AttributeModifier modifier : modifiers) {
-         if (!modifier.getId().equals(CustomSlownessEffect.MODIFIER_ID)) {
-            if (modifier.getOperation() == Operation.ADDITION) {
-               valueWithoutOurModifier += modifier.getAmount();
-            } else if (modifier.getOperation() == Operation.MULTIPLY_BASE) {
-               valueWithoutOurModifier += baseValue * modifier.getAmount();
+         if (!modifier.is(CustomSlownessEffect.MODIFIER_ID)) {
+            if (modifier.operation() == Operation.ADD_VALUE) {
+               valueWithoutOurModifier += modifier.amount();
+            } else if (modifier.operation() == Operation.ADD_MULTIPLIED_BASE) {
+               valueWithoutOurModifier += baseValue * modifier.amount();
             }
          }
       }
@@ -46,8 +46,8 @@ public abstract class AbstractClientPlayerEntityMixin {
       double multiplierTotal = 1.0;
 
       for (AttributeModifier modifier : modifiers) {
-         if (!modifier.getId().equals(CustomSlownessEffect.MODIFIER_ID) && modifier.getOperation() == Operation.MULTIPLY_TOTAL) {
-            multiplierTotal += modifier.getAmount();
+         if (!modifier.is(CustomSlownessEffect.MODIFIER_ID) && modifier.operation() == Operation.ADD_MULTIPLIED_TOTAL) {
+            multiplierTotal += modifier.amount();
          }
       }
 
@@ -73,7 +73,7 @@ public abstract class AbstractClientPlayerEntityMixin {
             }
 
             f *= 1.0F - g * 0.15F;
-         } else if (Minecraft.getInstance().options.getCameraType().isFirstPerson() && player.isScoping()) {
+         } else if (Minecraft.getInstance().options.getCameraType().isFirstPerson() && player.getUseItem().is(Items.SPYGLASS)) {
             return 0.1F;
          }
       }

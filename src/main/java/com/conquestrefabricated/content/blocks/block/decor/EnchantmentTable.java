@@ -23,7 +23,7 @@ import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 import org.jetbrains.annotations.Nullable;
 
 @Render(RenderLayer.CUTOUT)
-public class EnchantmentTable extends EnchantmentTableBlock {
+public class EnchantmentTable extends EnchantingTableBlock {
    public EnchantmentTable(Properties properties) {
       super(properties);
    }

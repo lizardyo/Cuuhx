@@ -9,7 +9,7 @@ import net.minecraft.world.Container;
 import net.minecraft.world.inventory.Slot;
 
 public class Hotbar {
-   private static final ResourceLocation HOTBAR = ResourceLocation.fromNamespaceAndPath("minecraft:textures/gui/widgets.png");
+   private static final ResourceLocation HOTBAR = ResourceLocation.parse("minecraft:textures/gui/widgets.png");
    private final Container inventory;
 
    public Hotbar(Container inventory) {

@@ -3,18 +3,19 @@ package com.conquestrefabricated.core.item;
 import com.conquestrefabricated.core.item.family.Family;
 import com.conquestrefabricated.core.item.family.FamilyRegistry;
 import com.conquestrefabricated.core.item.family.TypeFilter;
-import com.google.common.collect.UnmodifiableIterator;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.Map.Entry;
 import net.minecraft.core.NonNullList;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.BlockItemStateProperties;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
@@ -28,49 +29,33 @@ public class ItemUtils {
 
    public static ItemStack fromState(BlockState state) {
       ItemStack stack = new ItemStack(state.getBlock());
-      CompoundTag data = stack.getOrCreateTagElement("BlockStateTag");
-      UnmodifiableIterator var3 = state.getValues().entrySet().iterator();
-
-      while (var3.hasNext()) {
-         Entry<Property<?>, ?> e = (Entry<Property<?>, ?>)var3.next();
-         data.putString(e.getKey().getName(), e.getValue().toString());
-      }
-
+      stack.set(DataComponents.BLOCK_STATE, blockStateProperties(state, property -> true));
       return stack;
    }
 
    public static ItemStack fromStateNoFacing(BlockState state) {
       ItemStack stack = new ItemStack(state.getBlock());
-      CompoundTag data = stack.getOrCreateTagElement("BlockStateTag");
-      UnmodifiableIterator var3 = state.getValues().entrySet().iterator();
-
-      while (var3.hasNext()) {
-         Entry<Property<?>, ?> e = (Entry<Property<?>, ?>)var3.next();
-         if (!Objects.equals(e.getKey().getName(), "facing")) {
-            data.putString(e.getKey().getName(), e.getValue().toString());
-         }
-      }
-
+      stack.set(DataComponents.BLOCK_STATE, blockStateProperties(state, property -> !Objects.equals(property.getName(), "facing")));
       return stack;
    }
 
    public static ItemStack fromState(BlockState state, Property<?> property) {
       String value = state.getValue(property).toString();
       ItemStack stack = new ItemStack(state.getBlock());
-      stack.getOrCreateTagElement("BlockStateTag").putString(property.getName(), value);
-      stack.setHoverName(Component.nullToEmpty(stack.getDisplayName().getString() + property.getName() + "=" + value));
+      stack.set(DataComponents.BLOCK_STATE, blockStateProperties(state, candidate -> candidate.equals(property)));
+      stack.set(DataComponents.CUSTOM_NAME, Component.nullToEmpty(stack.getHoverName().getString() + property.getName() + "=" + value));
       return stack;
    }
 
    public static ItemStack fromState(BlockState state, Collection<Property<?>> properties) {
       StringBuilder name = new StringBuilder("[");
       ItemStack stack = new ItemStack(state.getBlock());
-      CompoundTag stateTag = stack.getOrCreateTagElement("BlockStateTag");
+      Map<String, String> stateProperties = new HashMap<>();
 
       for (Property<?> property : properties) {
          if (state.hasProperty(property)) {
             String value = state.getValue(property).toString();
-            stateTag.putString(property.getName(), value);
+            stateProperties.put(property.getName(), value);
             if (name.length() > 1) {
                name.append(',');
             }
@@ -79,9 +64,10 @@ public class ItemUtils {
          }
       }
 
+      stack.set(DataComponents.BLOCK_STATE, new BlockItemStateProperties(stateProperties));
       if (name.length() > 1) {
          name.append("]");
-         stack.setHoverName(Component.nullToEmpty(stack.getDisplayName().getString() + name.toString()));
+         stack.set(DataComponents.CUSTOM_NAME, Component.nullToEmpty(stack.getHoverName().getString() + name));
       }
 
       return stack;
@@ -113,5 +99,17 @@ public class ItemUtils {
       }
 
       return FamilyRegistry.BLOCKS.getFamily(block);
+   }
+
+   private static BlockItemStateProperties blockStateProperties(
+      BlockState state, java.util.function.Predicate<Property<?>> includeProperty
+   ) {
+      Map<String, String> properties = new HashMap<>();
+      state.getValues().forEach((property, value) -> {
+         if (includeProperty.test(property)) {
+            properties.put(property.getName(), value.toString());
+         }
+      });
+      return new BlockItemStateProperties(properties);
    }
 }

@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(BlockPathTypes.class)
+@Mixin(PathType.class)
 public class PathNodeTypeMixin {
    @Shadow
    @Final

@@ -19,13 +19,13 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
 public class IntroScreen extends Screen {
-   private static final ResourceLocation LOGO = ResourceLocation.fromNamespaceAndPath("conquest:textures/gui/intro/logosmall.png");
+   private static final ResourceLocation LOGO = ResourceLocation.parse("conquest:textures/gui/intro/logosmall.png");
    private static final int LOGO_FRAME_SIZE = 145;
    private static final int LOGO_FRAME_COUNT = 111;
    private static final int LOGO_FRAME_TICKS = 2;
    private static final int LOGO_DRAW_SIZE = 64;
    private static final int LOGO_MARGIN = 12;
-   private static final ResourceLocation PATREON_LOGO = ResourceLocation.fromNamespaceAndPath("conquest:textures/gui/intro/patreon.png");
+   private static final ResourceLocation PATREON_LOGO = ResourceLocation.parse("conquest:textures/gui/intro/patreon.png");
    private static final int PATREON_SIZE = 52;
    private static final int PATREON_FRAME_SIZE = 145;
    private static final int PATREON_FRAME_COUNT = 14;
@@ -33,7 +33,10 @@ public class IntroScreen extends Screen {
    private static final float HOVER_BRIGHTNESS = 1.25F;
    private static final String PATREON_URL = "https://www.patreon.com/c/ConquestReforged?vanity=user";
    private final Screen screen;
-   private final Checkbox check = new Checkbox(0, 0, 20, 20, Component.translatableWithFallback("conquest.intro.checkbox", "Do not show again"), false);
+   private final Checkbox check = Checkbox.builder(Component.translatableWithFallback("conquest.intro.checkbox", "Do not show again"), Minecraft.getInstance().font)
+      .pos(0, 0)
+      .selected(false)
+      .build();
    private IntroScreen.KeybindWidget paletteKeybindWidget;
    private IntroScreen.KeybindWidget pickBlockKeybindWidget;
    private IntroScreen.TextLinkWidget patreonHintWidget;
@@ -108,7 +111,7 @@ public class IntroScreen extends Screen {
    }
 
    public void render(GuiGraphics drawContext, int mx, int my, float ticks) {
-      this.renderDirtBackground(drawContext);
+      this.renderBackground(drawContext, mx, my, ticks);
       Component welcomeString = Component.translatableWithFallback("conquest.intro.welcome", "Welcome to Conquest Reforged!").withStyle(ChatFormatting.GOLD);
       Component intro = Component.translatableWithFallback("conquest.intro.1", "This screen will introduce you to keybinds for making building faster.");
       int dist = 12;

@@ -4,6 +4,7 @@ import com.conquestrefabricated.content.blocks.block.trees.Sapling;
 import com.conquestrefabricated.content.blocks.group.ModGroups;
 import com.conquestrefabricated.core.block.builder.VanillaProps;
 import com.conquestrefabricated.core.block.factory.TypeList;
+import net.minecraft.world.level.block.grower.TreeGrower;
 
 
 

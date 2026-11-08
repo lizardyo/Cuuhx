@@ -9,7 +9,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 
 public class DeferredFamilyRegistry<T extends ItemLike> extends Cache<ResourceLocation, DeferredFamily<T>> implements FamilyFactory<T> {
-   public static final DeferredFamilyRegistry<Block> BLOCKS = new DeferredFamilyRegistry((T)Blocks.AIR, (FamilyRegistry<T>)FamilyRegistry.BLOCKS);
+   public static final DeferredFamilyRegistry<Block> BLOCKS = new DeferredFamilyRegistry<>(Blocks.AIR, FamilyRegistry.BLOCKS);
    private final T empty;
    private final DeferredFamily<T> none;
    private final FamilyRegistry<T> registry;

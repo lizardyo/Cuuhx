@@ -55,7 +55,7 @@ public abstract class PickerScreen<T> extends Screen {
    }
 
    public void render(GuiGraphics matrixStack, int mouseX, int mouseY, float partialTicks) {
-      this.renderDirtBackground(matrixStack);
+      this.renderBackground(matrixStack, mouseX, mouseY, partialTicks);
       int centerX = this.width / 2;
       int centerY = this.height / 2;
       int maxWidth = this.options.size() / 2;

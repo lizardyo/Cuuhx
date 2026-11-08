@@ -10,7 +10,12 @@ public class DelegateGroup extends CreativeModeTab {
    private final CreativeModeTab group;
 
    DelegateGroup(int index, CreativeModeTab group) {
-      super(group.row(), group.column(), group.getType(), group.getDisplayName(), group::getIconItem, (displayContext, entries) -> {});
+      super(
+         CreativeModeTab.builder(group.row(), group.column())
+            .title(group.getDisplayName())
+            .icon(group::getIconItem)
+            .displayItems((displayContext, entries) -> {})
+      );
       this.group = group;
    }
 
@@ -21,12 +26,12 @@ public class DelegateGroup extends CreativeModeTab {
 
    @OnlyIn(Dist.CLIENT)
    public ItemStack getIconItem() {
-      return (T)this.group.getIconItem();
+      return this.group.getIconItem();
    }
 
    @OnlyIn(Dist.CLIENT)
    public String getBackgroundSuffix() {
-      return this.group.getBackgroundSuffix();
+      return this.group.getBackgroundTexture().getPath();
    }
 
    @OnlyIn(Dist.CLIENT)

@@ -23,7 +23,7 @@ import net.minecraft.network.chat.FormattedText;
 import net.minecraft.resources.ResourceLocation;
 
 public class DependencyScreen extends Screen {
-   private static final ResourceLocation CTM = ResourceLocation.fromNamespaceAndPath("conquest:textures/gui/dependency/ctm.png");
+   private static final ResourceLocation CTM = ResourceLocation.parse("conquest:textures/gui/dependency/ctm.png");
    private static final int CTM_HEIGHT = 256;
    private static final int CTM_WIDTH = 432;
    private static final int LIST_HEIGHT = 64;
@@ -32,7 +32,12 @@ public class DependencyScreen extends Screen {
    private static final int MARGIN_BOTTOM = 28;
    private final Screen screen;
    private final List<Dependency> missing;
-   private final Checkbox check = new Checkbox(0, 0, 20, 20, Component.translatableWithFallback("conquest.dependency.checkbox", "Do not show again"), false);
+   private final Checkbox check = Checkbox.builder(
+         Component.translatableWithFallback("conquest.dependency.checkbox", "Do not show again"), Minecraft.getInstance().font
+      )
+      .pos(0, 0)
+      .selected(false)
+      .build();
 
    public DependencyScreen(Screen parent, List<Dependency> missing) {
       super(Component.nullToEmpty("Dependencies"));
@@ -134,7 +139,7 @@ public class DependencyScreen extends Screen {
    }
 
    public void render(GuiGraphics drawContext, int mx, int my, float ticks) {
-      this.renderBackground(drawContext);
+      this.renderBackground(drawContext, mx, my, ticks);
       int center = this.width / 2;
       int imageHeight = this.getImageHeight();
       int imageWidth = this.getImageWidth(imageHeight);

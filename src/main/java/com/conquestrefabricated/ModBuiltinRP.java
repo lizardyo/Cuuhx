@@ -1,8 +1,11 @@
 package com.conquestrefabricated;
 
 import java.nio.file.Path;
-import net.minecraft.SharedConstants;
+import java.util.Optional;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.packs.PackLocationInfo;
+import net.minecraft.server.packs.PackResources;
+import net.minecraft.server.packs.PackSelectionConfig;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.PathPackResources;
 import net.minecraft.server.packs.repository.Pack;
@@ -29,15 +32,7 @@ public class ModBuiltinRP {
             .ifPresent(
                modContainer -> event.addRepositorySource(
                   packConsumer -> {
-                     String packId = "rp_crrp";
-                     String fullPackId = "conquest:" + packId;
-                     Path resourcePath = ModList.get().getModFileById("conquest").getFile().findResource(new String[]{"resourcepacks/" + packId});
-                     ResourcesSupplier resourceSupplier = suppliedPackId -> new PathPackResources(fullPackId, true, resourcePath);
-                     int currentVersion = SharedConstants.getCurrentVersion().getPackVersion(PackType.CLIENT_RESOURCES);
-                     Pack pack = Pack.readMetaAndCreate(
-                        fullPackId, Component.literal("CRRP"), true, resourceSupplier, PackType.CLIENT_RESOURCES, Position.TOP, PackSource.BUILT_IN
-                     );
-                     packConsumer.accept(pack);
+                        packConsumer.accept(createPack("rp_crrp", "CRRP"));
                   }
                )
             );
@@ -46,21 +41,7 @@ public class ModBuiltinRP {
             .ifPresent(
                modContainer -> event.addRepositorySource(
                   packConsumer -> {
-                     String packId = "conquest_jei";
-                     String fullPackId = "conquest:" + packId;
-                     Path resourcePath = ModList.get().getModFileById("conquest").getFile().findResource(new String[]{"resourcepacks/" + packId});
-                     ResourcesSupplier resourceSupplier = suppliedPackId -> new PathPackResources(fullPackId, true, resourcePath);
-                     int currentVersion = SharedConstants.getCurrentVersion().getPackVersion(PackType.CLIENT_RESOURCES);
-                     Pack pack = Pack.readMetaAndCreate(
-                        fullPackId,
-                        Component.literal("Conquest JEI Compat"),
-                        true,
-                        resourceSupplier,
-                        PackType.CLIENT_RESOURCES,
-                        Position.TOP,
-                        PackSource.BUILT_IN
-                     );
-                     packConsumer.accept(pack);
+                        packConsumer.accept(createPack("conquest_jei", "Conquest JEI Compat"));
                   }
                )
             );
@@ -69,24 +50,28 @@ public class ModBuiltinRP {
             .ifPresent(
                modContainer -> event.addRepositorySource(
                   packConsumer -> {
-                     String packId = "conquest_rei";
-                     String fullPackId = "conquest:" + packId;
-                     Path resourcePath = ModList.get().getModFileById("conquest").getFile().findResource(new String[]{"resourcepacks/" + packId});
-                     ResourcesSupplier resourceSupplier = suppliedPackId -> new PathPackResources(fullPackId, true, resourcePath);
-                     int currentVersion = SharedConstants.getCurrentVersion().getPackVersion(PackType.CLIENT_RESOURCES);
-                     Pack pack = Pack.readMetaAndCreate(
-                        fullPackId,
-                        Component.literal("Conquest REI Compat"),
-                        true,
-                        resourceSupplier,
-                        PackType.CLIENT_RESOURCES,
-                        Position.TOP,
-                        PackSource.BUILT_IN
-                     );
-                     packConsumer.accept(pack);
+                        packConsumer.accept(createPack("conquest_rei", "Conquest REI Compat"));
                   }
                )
             );
       }
+   }
+
+   private static Pack createPack(String packId, String title) {
+      String fullPackId = "conquest:" + packId;
+      Path resourcePath = ModList.get().getModFileById("conquest").getFile().findResource(new String[]{"resourcepacks/" + packId});
+      PackLocationInfo location = new PackLocationInfo(fullPackId, Component.literal(title), PackSource.BUILT_IN, Optional.empty());
+      ResourcesSupplier resources = new ResourcesSupplier() {
+         @Override
+         public PackResources openPrimary(PackLocationInfo info) {
+            return new PathPackResources(info, resourcePath);
+         }
+
+         @Override
+         public PackResources openFull(PackLocationInfo info, Pack.Metadata metadata) {
+            return new PathPackResources(info, resourcePath);
+         }
+      };
+      return Pack.readMetaAndCreate(location, resources, PackType.CLIENT_RESOURCES, new PackSelectionConfig(true, Position.TOP, false));
    }
 }

@@ -23,7 +23,7 @@ import net.neoforged.api.distmarker.OnlyIn;
    render = @Render(RenderLayer.CUTOUT),
    block = @Model(name = "block/%s", template = "block/parent_cube", plural = true)
 )
-public class Glass extends GlassBlock {
+public class Glass extends TransparentBlock {
    public Glass(Properties properties) {
       super(properties);
    }

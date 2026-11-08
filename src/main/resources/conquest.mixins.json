@@ -12,6 +12,7 @@
     "TallPlantBlockMixin",
     "FernBlockMixin",
     "BlockSettingsOffsetMixin",
+    "BlockOffsetInvoker",
     "LayerBlockPathNodeMixin",
     "AbstractBlockStateMixin"
   ],

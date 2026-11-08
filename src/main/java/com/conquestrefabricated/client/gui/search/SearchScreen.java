@@ -58,7 +58,7 @@ public class SearchScreen extends Screen implements Consumer<String> {
 
    public void render(GuiGraphics drawContext, int mx, int my, float ticks) {
       this.update();
-      super.renderBackground(drawContext);
+      super.renderBackground(drawContext, mx, my, ticks);
       super.render(drawContext, mx, my, ticks);
       this.searchList.render(drawContext, mx, my, this.width, this.height, ticks);
    }
@@ -111,7 +111,7 @@ public class SearchScreen extends Screen implements Consumer<String> {
       List<String> tags = new LinkedList<>();
       tags.add(BuiltInRegistries.ITEM.getKey(item.getItem()).getPath());
 
-      for (TagKey<Item> tag : (List)item.getTags().collect(Collectors.toList())) {
+      for (TagKey<Item> tag : item.getTags().toList()) {
          tags.add(tag.location().getPath());
       }
 

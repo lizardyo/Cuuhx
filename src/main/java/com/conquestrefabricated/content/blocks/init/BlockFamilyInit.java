@@ -401,13 +401,13 @@ public class BlockFamilyInit {
    }
 
    private static void setRoot(String target, Block block) {
-      Family<Block> family = FamilyRegistry.BLOCKS.getFamily(ResourceLocation.fromNamespaceAndPath(target));
+      Family<Block> family = FamilyRegistry.BLOCKS.getFamily(ResourceLocation.parse(target));
       family.setRoot(block);
       FamilyRegistry.BLOCKS.register(block, family);
    }
 
    private static void setRoot(String parent, Block root, Block... blocks) {
-      Family<Block> family = FamilyRegistry.BLOCKS.getFamily(ResourceLocation.fromNamespaceAndPath(parent));
+      Family<Block> family = FamilyRegistry.BLOCKS.getFamily(ResourceLocation.parse(parent));
       family.setRoot(root);
       FamilyRegistry.BLOCKS.register(root, family);
 
@@ -427,7 +427,7 @@ public class BlockFamilyInit {
    }
 
    private static void add(String parent, Block... blocks) {
-      Family<Block> family = FamilyRegistry.BLOCKS.getFamily(ResourceLocation.fromNamespaceAndPath(parent));
+      Family<Block> family = FamilyRegistry.BLOCKS.getFamily(ResourceLocation.parse(parent));
 
       for (Block block : blocks) {
          family.add(block);
@@ -465,7 +465,7 @@ public class BlockFamilyInit {
 
    private static Block getBlockFromIdentifier(String identifier) {
       try {
-         ResourceLocation blockId = ResourceLocation.fromNamespaceAndPath(identifier);
+         ResourceLocation blockId = ResourceLocation.parse(identifier);
          return (Block)BuiltInRegistries.BLOCK.get(blockId);
       } catch (Exception e) {
          System.err.println("Invalid block identifier: " + identifier);

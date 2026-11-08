@@ -17,9 +17,9 @@ public enum ArtRenderer {
       @Override
       public void render(Painting painting, Art<?> art, GuiGraphics drawContext, int x, int y, int w, int h) {
          String artName = art.getName().replace("minecraft:", "");
-         RenderSystem.setShaderTexture(0, ResourceLocation.fromNamespaceAndPath("minecraft:textures/painting/" + artName + ".png"));
+         RenderSystem.setShaderTexture(0, ResourceLocation.parse("minecraft:textures/painting/" + artName + ".png"));
          drawContext.blit(
-            ResourceLocation.fromNamespaceAndPath("minecraft:textures/painting/" + artName + ".png"),
+            ResourceLocation.parse("minecraft:textures/painting/" + artName + ".png"),
             x,
             y,
             w,

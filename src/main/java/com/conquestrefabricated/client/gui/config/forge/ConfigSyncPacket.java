@@ -2,10 +2,9 @@ package com.conquestrefabricated.client.gui.config.forge;
 
 import com.conquestrefabricated.RefabricatedMod;
 import com.conquestrefabricated.client.gui.config.ConquestConfig;
-import java.util.function.Supplier;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraftforge.network.NetworkEvent.Context;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 public class ConfigSyncPacket {
    private final boolean plantSlowness;
@@ -28,9 +27,8 @@ public class ConfigSyncPacket {
       return new ConfigSyncPacket(buf.readBoolean(), buf.readBoolean(), buf.readBoolean());
    }
 
-   public static void handle(ConfigSyncPacket packet, Supplier<Context> supplier) {
-      Context ctx = supplier.get();
-      ctx.enqueueWork(() -> {
+   public static void handle(ConfigSyncPacket packet, IPayloadContext context) {
+      context.enqueueWork(() -> {
          if (!Minecraft.getInstance().isLocalServer()) {
             RefabricatedMod.localPlantSlowness = (Boolean)ConquestConfig.INSTANCE.plantSlowness.get();
             RefabricatedMod.localPlantBreaking = (Boolean)ConquestConfig.INSTANCE.plantBreaking.get();
@@ -40,6 +38,5 @@ public class ConfigSyncPacket {
             ConquestConfig.INSTANCE.passThroughLeaves.set(packet.passThroughLeaves);
          }
       });
-      ctx.setPacketHandled(true);
    }
 }

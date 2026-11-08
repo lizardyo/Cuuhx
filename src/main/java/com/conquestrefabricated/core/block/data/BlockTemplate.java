@@ -89,8 +89,8 @@ public class BlockTemplate {
          Log.debug("Generating state for {}", regName);
          String templateName = this.state.template();
          String virtualName = name.namespaceFormat(this.state.name(), this.state.plural());
-         String templatePath = Locations.statePath(ResourceLocation.fromNamespaceAndPath(templateName));
-         String virtualPath = Locations.statePath(ResourceLocation.fromNamespaceAndPath(virtualName));
+         String templatePath = Locations.statePath(ResourceLocation.parse(templateName));
+         String virtualPath = Locations.statePath(ResourceLocation.parse(virtualName));
          JsonTemplate template = TemplateCache.getInstance().get(templatePath);
          JsonOverride overrides = this.getOverrides(name, this.blockModels);
          builder.add(TemplateResource.asset(name.getNamespace(), virtualPath, overrides, template));
@@ -136,11 +136,11 @@ public class BlockTemplate {
          String templateName = recipe.template();
          String recipeName = name.namespaceFormat(recipe.name(), this.plural);
          String output = recipe.output().isEmpty() ? recipe.template() : recipe.output();
-         String item = ResourceLocation.fromNamespaceAndPath(output).toString();
+         String item = ResourceLocation.parse(output).toString();
          Ingredient result = createIngredient(recipe.name(), item, this.plural);
          Ingredient[] ingredients = this.push(recipe.ingredients(), result);
-         String templatePath = Locations.recipePath(ResourceLocation.fromNamespaceAndPath(templateName));
-         String virtualPath = Locations.recipePath(ResourceLocation.fromNamespaceAndPath(recipeName));
+         String templatePath = Locations.recipePath(ResourceLocation.parse(templateName));
+         String virtualPath = Locations.recipePath(ResourceLocation.parse(recipeName));
          JsonOverride overrides = this.getOverrides(name, ingredients);
          if (overrides == EmptyOverride.EMPTY) {
             Log.error("Unable to generate recipe for {} (invalid ingredients)", regName);
@@ -190,7 +190,7 @@ public class BlockTemplate {
       Map<JsonElement, JsonElement> overrides = new HashMap<>(ingredients.length);
 
       for (Ingredient ingredient : ingredients) {
-         String find = ResourceLocation.fromNamespaceAndPath(ingredient.template()).toString();
+         String find = ResourceLocation.parse(ingredient.template()).toString();
          String replace = this.getIngredient(name, ingredient);
          if (replace.isEmpty()) {
             return EmptyOverride.EMPTY;
@@ -207,7 +207,7 @@ public class BlockTemplate {
       if (BuiltInRegistries.ITEM.containsKey(ResourceLocation.fromNamespaceAndPath(name.getNamespace(), itemName))) {
          Log.debug(" Found ingredient {}:{}", name.getNamespace(), itemName);
          return name.getNamespace() + ":" + itemName;
-      } else if (BuiltInRegistries.ITEM.containsKey(ResourceLocation.fromNamespaceAndPath(itemName))) {
+      } else if (BuiltInRegistries.ITEM.containsKey(ResourceLocation.parse(itemName))) {
          Log.debug(" Found vanilla ingredient minecraft:{}", itemName);
          return "minecraft:" + itemName;
       } else {

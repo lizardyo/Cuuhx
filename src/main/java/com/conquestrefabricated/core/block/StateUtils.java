@@ -2,13 +2,15 @@ package com.conquestrefabricated.core.block;
 
 import com.conquestrefabricated.core.block.factory.InitializationException;
 import com.conquestrefabricated.core.item.ItemUtils;
+import java.util.Map;
 import java.util.Optional;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.BlockItemStateProperties;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
@@ -27,24 +29,18 @@ public class StateUtils {
    }
 
    public static Optional<BlockState> fromStack(ItemStack stack, BlockItem item) {
-      CompoundTag stackTag = stack.getTag();
-      if (stackTag == null) {
-         return Optional.of(item.getBlock().defaultBlockState());
-      }
-
-      CompoundTag stateTag = stackTag.getCompound("BlockStateTag");
-      if (stateTag.isEmpty()) {
+      BlockItemStateProperties stackProperties = stack.get(DataComponents.BLOCK_STATE);
+      if (stackProperties == null || stackProperties.properties().isEmpty()) {
          return Optional.of(item.getBlock().defaultBlockState());
       }
 
       BlockState state = item.getBlock().defaultBlockState();
       StateDefinition<Block, BlockState> container = item.getBlock().getStateDefinition();
 
-      for (String key : stateTag.getAllKeys()) {
-         Property<?> property = container.getProperty(key);
+      for (Map.Entry<String, String> entry : stackProperties.properties().entrySet()) {
+         Property<?> property = container.getProperty(entry.getKey());
          if (property != null) {
-            String s1 = stateTag.get(key).getAsString();
-            state = with(state, property, s1);
+            state = with(state, property, entry.getValue());
          }
       }
 

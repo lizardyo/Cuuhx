@@ -70,7 +70,7 @@ public class VanillaProps {
    }
 
    public static Props plants() {
-      return Props.create(Blocks.GRASS)
+      return Props.create(Blocks.SHORT_GRASS)
          .group((CreativeModeTab)BuiltInRegistries.CREATIVE_MODE_TAB.get(CreativeModeTabs.NATURAL_BLOCKS))
          .strength(0.0, 0.0)
          .offset(OffsetType.XYZ)
@@ -79,18 +79,18 @@ public class VanillaProps {
    }
 
    public static Props hangingPlants() {
-      return Props.create(Blocks.GRASS)
+      return Props.create(Blocks.SHORT_GRASS)
          .group((CreativeModeTab)BuiltInRegistries.CREATIVE_MODE_TAB.get(CreativeModeTabs.NATURAL_BLOCKS))
          .strength(0.0, 0.0)
          .offset(OffsetType.XYZ);
    }
 
    public static Props plantsPlain() {
-      return Props.create(Blocks.GRASS).group((CreativeModeTab)BuiltInRegistries.CREATIVE_MODE_TAB.get(CreativeModeTabs.NATURAL_BLOCKS)).strength(0.0, 0.0);
+      return Props.create(Blocks.SHORT_GRASS).group((CreativeModeTab)BuiltInRegistries.CREATIVE_MODE_TAB.get(CreativeModeTabs.NATURAL_BLOCKS)).strength(0.0, 0.0);
    }
 
    public static Props flowers() {
-      return Props.create(Blocks.GRASS)
+      return Props.create(Blocks.SHORT_GRASS)
          .group((CreativeModeTab)BuiltInRegistries.CREATIVE_MODE_TAB.get(CreativeModeTabs.NATURAL_BLOCKS))
          .strength(0.0, 0.0)
          .offset(OffsetType.XZ)
@@ -137,7 +137,7 @@ public class VanillaProps {
    }
 
    public static Props leafLike() {
-      return Props.create(Blocks.GRASS).group((CreativeModeTab)BuiltInRegistries.CREATIVE_MODE_TAB.get(CreativeModeTabs.BUILDING_BLOCKS));
+      return Props.create(Blocks.SHORT_GRASS).group((CreativeModeTab)BuiltInRegistries.CREATIVE_MODE_TAB.get(CreativeModeTabs.BUILDING_BLOCKS));
    }
 
    public static Props bamboo() {

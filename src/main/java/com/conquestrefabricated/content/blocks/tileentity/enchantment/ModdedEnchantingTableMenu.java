@@ -21,7 +21,7 @@ public class ModdedEnchantingTableMenu extends EnchantmentMenu {
    }
 
    public boolean stillValid(Player p_39463_) {
-      return stillValid(this.access, p_39463_, (Block)BuiltInRegistries.BLOCK.get(ResourceLocation.fromNamespaceAndPath("conquest:enchantment_table")))
-         || stillValid(this.access, p_39463_, (Block)BuiltInRegistries.BLOCK.get(ResourceLocation.fromNamespaceAndPath("conquest:floating_book")));
+      return stillValid(this.access, p_39463_, (Block)BuiltInRegistries.BLOCK.get(ResourceLocation.parse("conquest:enchantment_table")))
+         || stillValid(this.access, p_39463_, (Block)BuiltInRegistries.BLOCK.get(ResourceLocation.parse("conquest:floating_book")));
    }
 }

@@ -18,7 +18,7 @@ import org.joml.Quaternionf;
 
 @OnlyIn(Dist.CLIENT)
 public class ModdedTileEntityEnchanterRenderer implements BlockEntityRenderer<ModdedEnchantingTableTileEntity> {
-   public static final Material BOOK_LOCATION = new Material(TextureAtlas.LOCATION_BLOCKS, ResourceLocation.fromNamespaceAndPath("entity/enchanting_table_book"));
+   public static final Material BOOK_LOCATION = new Material(TextureAtlas.LOCATION_BLOCKS, ResourceLocation.parse("entity/enchanting_table_book"));
    private final BookModel bookModel;
 
    public ModdedTileEntityEnchanterRenderer(Context dispatcher) {

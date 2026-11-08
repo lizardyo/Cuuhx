@@ -279,7 +279,7 @@ public class Loom extends HorizontalDirectional implements EntityBlock {
    private InteractionResult dropProduct(Level level, BlockPos blockPos, BlockState state, LoomBlockEntity blockEntity) {
       String product = blockEntity.getProduct();
       if (product != null && !product.isEmpty()) {
-         ItemStack itemToSpawn = new ItemStack((ItemLike)BuiltInRegistries.ITEM.get(ResourceLocation.fromNamespaceAndPath(product)), 1);
+         ItemStack itemToSpawn = new ItemStack((ItemLike)BuiltInRegistries.ITEM.get(ResourceLocation.parse(product)), 1);
          Vec3 spawnPos = Vec3.atCenterOf(blockPos).add(0.0, 1.3, 0.0);
          ItemEntity itemEntity = new ItemEntity(level, spawnPos.x, spawnPos.y, spawnPos.z, itemToSpawn);
          itemEntity.setPickUpDelay(10);

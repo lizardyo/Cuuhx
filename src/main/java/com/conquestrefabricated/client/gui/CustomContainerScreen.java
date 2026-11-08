@@ -15,7 +15,7 @@ import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
 public abstract class CustomContainerScreen<T extends AbstractContainerMenu> extends AbstractContainerScreen<T> {
-   private ResourceLocation SLOT_BACKGROUND = ResourceLocation.fromNamespaceAndPath("conquest:textures/gui/picker/slot.png");
+   private ResourceLocation SLOT_BACKGROUND = ResourceLocation.parse("conquest:textures/gui/picker/slot.png");
    private Slot clickedSlot;
    private boolean isRightMouseClick;
    private boolean isOverSlot = false;

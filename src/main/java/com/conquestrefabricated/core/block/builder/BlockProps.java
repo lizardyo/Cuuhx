@@ -162,7 +162,7 @@ public abstract class BlockProps<T extends BlockProps<T>> {
    private Properties createBuilder() throws InitializationException {
       Properties props;
       if (this.block != null) {
-         props = Properties.copy(this.block);
+         props = Properties.ofFullCopy(this.block);
       } else {
          if (this.color == null) {
             throw new InitializationException("Block.Builder requires a Material");

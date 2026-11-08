@@ -8,7 +8,7 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 
 public class PaletteSlot extends Slot {
-   private static final ResourceLocation SLOT = ResourceLocation.fromNamespaceAndPath("conquest:textures/gui/picker/slot.png");
+   private static final ResourceLocation SLOT = ResourceLocation.parse("conquest:textures/gui/picker/slot.png");
    private final Style style;
    private final Bounds bounds;
 

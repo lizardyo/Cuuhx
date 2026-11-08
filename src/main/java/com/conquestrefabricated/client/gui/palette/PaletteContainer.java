@@ -23,7 +23,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class PaletteContainer extends AbstractContainer {
    public static final MenuType<PaletteContainer> TYPE = new MenuType(PaletteContainer::new, FeatureFlagSet.of());
-   private static final ResourceLocation BACKGROUND = ResourceLocation.fromNamespaceAndPath("conquest:textures/gui/picker/slot.png");
+   private static final ResourceLocation BACKGROUND = ResourceLocation.parse("conquest:textures/gui/picker/slot.png");
    public static final int RADIUS = 65;
    private static final int EDGES = 6;
    private static final int PADDING = 40;
